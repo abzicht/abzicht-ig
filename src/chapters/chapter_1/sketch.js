@@ -26,8 +26,5 @@ function setup() {
   background(0x21);
   translate(0, height / 2);
   draw_sin(0.001);
-}
-
-function draw() {
-
+  noLoop();
 }

@@ -10,6 +10,7 @@ function setup() {
 	let radius = width /1.5;
   translate(width / 3, 0);
   draw_curve(createVector(0,0), 0.25, 0.5, radius);
+  noLoop();
 }
 
 function draw_transition(from, to, resolution, start = 0, stop = 1) {

@@ -43,8 +43,5 @@ function setup() {
   background(0x21);
   translate(width / 2, height / 2);
   drawsin(0.0001);
-}
-
-function draw() {
-
+  noLoop();
 }
