@@ -48,3 +48,21 @@ function draw_noise(from, to, resolution, start = 0, stop = 1) {
   }
   updatePixels();
 }
+
+function mandelbrot(vect, iterations) {
+  var orig_vect = vect.copy();
+  var i = 0;
+  while (i < iterations) {
+    var temp_x = vect.x ** 2 - vect.y ** 2;
+    var temp_y = 2 * vect.x * vect.y;
+
+    vect.x = temp_x + orig_vect.x;
+    vect.y = temp_y + orig_vect.y;
+
+    if (vect.x + vect.y > 16) {
+      return i;
+    }
+    i++;
+  }
+  return -1;
+}
