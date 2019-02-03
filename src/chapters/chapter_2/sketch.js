@@ -1,7 +1,7 @@
 function setup() {
   colorMode(HSB, 255);
-  let siz = 900;
-  createCanvas(3 * siz, siz);
+  let siz = windowWidth*pixelDensity();
+  createCanvas(siz, siz/3);
 
   let from = color(4, 199, 244);
   let to = color(0x00, 0x00, 0x21);

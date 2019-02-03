@@ -6,7 +6,7 @@ by (JS) code; __no photoshop allowed!__
 All chapters are written in JavaScript, utilizing the
 [p5 libraries](https://p5js.org).
 
-Have a look at the animations on [instagram](https://instagram.com/abzicht)
+Have a look at the animations on [instagram](https://instagram.com/abzicht), on [github pages](https://abzicht.github.io/abzicht-ig/)
 or clone this repository and dive in the code!
 
 ```bash

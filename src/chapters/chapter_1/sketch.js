@@ -21,8 +21,8 @@ function draw_sin(res) {
 
 function setup() {
   colorMode(HSB, 255);
-  let siz = 900;
-  createCanvas(3*siz, siz);
+  let siz = windowWidth*pixelDensity();
+  createCanvas(siz, siz/3);
   background(0x21);
   translate(0, height / 2);
   draw_sin(0.001);

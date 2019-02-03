@@ -8,11 +8,16 @@
 </head>
 <body>
   <script src="/src/misc/misc.js"></script>
-  <iframe width="2700" height="900" src="/src/chapters/chapter_3"></iframe>
+  <script src="/src/misc/frame.js"></script>
+  <iframe width="100%"  id="chapter3" onload="iframeLoaded(3)" src="/src/chapters/chapter_3" scrolling="no" ></iframe>
   <br/>
-  <iframe width="2700" height="900" src="/src/chapters/chapter_2"></iframe>
+  <iframe width="100%" id="chapter2" onload="iframeLoaded(2)" src="/src/chapters/chapter_2" scrolling="no" ></iframe>
   <br/>
-  <iframe width="2700" height="900" src="/src/chapters/chapter_1"></iframe>
+  <iframe width="100%" id="chapter1" onload="iframeLoaded(1)" src="/src/chapters/chapter_1" scrolling="no" ></iframe>
   <br/>
+
+  <script>
+
+  </script>
 </body>
 </html>
