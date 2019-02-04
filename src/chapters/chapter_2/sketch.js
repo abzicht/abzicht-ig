@@ -12,20 +12,3 @@ function setup() {
   draw_curve(createVector(0,0), 0.25, 0.5, radius);
   noLoop();
 }
-
-function draw_transition(from, to, resolution, start = 0, stop = 1) {
-  start_x = map(start, 0, 1, 0, width);
-  start_y = map(start, 0, 1, 0, height);
-  stop_x = map(stop, 0, 1, 0, width);
-  stop_y = map(stop, 0, 1, 0, height);
-  noStroke();
-  for (let i = start_y; i < stop_y; i += resolution) {
-    for (let j = start_x; j < stop_x; j += resolution) {
-      //let percentage_x = map(j, start_x, stop_x, 0, 1);
-      let percentage_y = map(i, start_y, stop_y, 0, 1);
-      let value = percentage_y - random(0.3 * (1 - percentage_y));
-      fill(lerpColor(from, to, value));
-      rect(j, i, resolution, resolution);
-    }
-  }
-}

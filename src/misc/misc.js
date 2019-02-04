@@ -32,6 +32,23 @@ function draw_sin(freq = 12, scale = height / 4, res, x_start = width / 2, x_end
   resetMatrix();
 }
 
+function draw_transition(from, to, resolution, start = 0, stop = 1) {
+  start_x = map(start, 0, 1, 0, width);
+  start_y = map(start, 0, 1, 0, height);
+  stop_x = map(stop, 0, 1, 0, width);
+  stop_y = map(stop, 0, 1, 0, height);
+  noStroke();
+  for (let i = start_y; i < stop_y; i += resolution) {
+    for (let j = start_x; j < stop_x; j += resolution) {
+      //let percentage_x = map(j, start_x, stop_x, 0, 1);
+      let percentage_y = map(i, start_y, stop_y, 0, 1);
+      let value = percentage_y - random(0.3 * (1 - percentage_y));
+      fill(lerpColor(from, to, value));
+      rect(j, i, resolution, resolution);
+    }
+  }
+}
+
 function draw_noise(from, to, resolution, start = 0, stop = 1) {
   loadPixels();
   let d = pixelDensity();
@@ -59,7 +76,7 @@ function mandelbrot(vect, iterations) {
     vect.x = temp_x + orig_vect.x;
     vect.y = temp_y + orig_vect.y;
 
-    if (vect.x + vect.y > 16) {
+    if (vect.x**2 + vect.y**2 > 4) {
       return i;
     }
     i++;
