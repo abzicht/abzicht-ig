@@ -1,6 +1,6 @@
 function setup() {
   colorMode(HSB, 255);
-  let siz =  2700;//windowWidth * pixelDensity();
+  let siz =  windowWidth * pixelDensity();
   createCanvas(siz, siz / 3);
 
   let iterations = 200;
