@@ -5,7 +5,7 @@ class Branch {
     generation = 0,
     max_generations = 10,
     from = color(163, 199, 244),
-    to = color(163,0,0xff),
+    to = color(163, 0, 0xff),
     orientation = -1) {
 
     this.root = root;

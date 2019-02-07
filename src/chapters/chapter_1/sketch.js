@@ -8,7 +8,7 @@ function get_brightness(x, scale) {
 
 function draw_sin(res) {
   let scale = height / 4;
-  let scale_x = 6*3;
+  let scale_x = 6 * 3;
   for (let x = 0.0; x <= 1; x += res) {
     let y = get_y(x, scale_x);
     let next_y = get_y(x + res, scale_x);
@@ -21,8 +21,8 @@ function draw_sin(res) {
 
 function setup() {
   colorMode(HSB, 255);
-  let siz = windowWidth*pixelDensity();
-  createCanvas(siz, siz/3);
+  let siz = windowWidth * pixelDensity();
+  createCanvas(siz, siz / 3);
   background(0x21);
   translate(0, height / 2);
   draw_sin(0.001);
