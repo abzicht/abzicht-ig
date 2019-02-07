@@ -1,10 +1,10 @@
-function draw_curve(vect, start, stop, width, height = -1) {
+function draw_curve(vect, start, stop, width, height = -1, col = color(0,0,0xff)) {
   noFill();
   if (height == -1) {
     height = width;
   }
   strokeWeight(6);
-  stroke(0, 0, 0xff);
+  stroke(col);
   arc(vect.x, vect.y, width/2, height/2, map(start, 0, 1, 0, TWO_PI), map(stop, 0, 1, 0, TWO_PI));
 }
 
