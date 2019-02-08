@@ -1,10 +1,10 @@
-function draw_curve(vect, start, stop, width, height = -1, col = color(0, 0, 0xff)) {
-  noFill();
-  if (height == -1) {
+function draw_curve(vect, start, stop, width, height = null, fill_ = false) {
+  if (fill_ == false) {
+    noFill();
+  }
+  if (height == null) {
     height = width;
   }
-  strokeWeight(6);
-  stroke(col);
   arc(vect.x, vect.y, width / 2, height / 2, map(start, 0, 1, 0, TWO_PI), map(stop, 0, 1, 0, TWO_PI));
 }
 
@@ -32,11 +32,34 @@ function draw_sin(freq = 12, scale = height / 4, res, x_start = width / 2, x_end
   resetMatrix();
 }
 
+
+function draw_single_branches(step_x = 6 * 4, start = null, stop = null) {
+  if (start == null) {
+    start = step_x;
+  }
+  if (stop == null) {
+    stop = width - step_x * 1;
+  }
+  for (let i = start; i <= stop; i += step_x) {
+    let switch_offset = (((i % (step_x * 2) == step_x) ? -1 : 1) * step_x * 0.5);
+    let height_offset = -height * map(i, start, stop, 1.5, 0);
+    line(-i / 2 - switch_offset, 0, -i / 2 - switch_offset, height_offset);
+    line(i / 2 + switch_offset, 0, i / 2 + switch_offset, height_offset);
+    let radius = step_x * 2;
+    let left_vec = createVector(-i / 2 - switch_offset - radius / 4, height_offset);
+    let right_vec = createVector(i / 2 + switch_offset + radius / 4, height_offset);
+    draw_curve(left_vec, 0.75, 1, radius, radius);
+    draw_curve(right_vec, 0.5, 0.75, radius, radius);
+    line(left_vec.x, left_vec.y - radius / 4, -width / 2, left_vec.y - radius / 4);
+    line(right_vec.x, right_vec.y - radius / 4, width / 2, right_vec.y - radius / 4);
+  }
+}
+
 function draw_transition(from, to, resolution, start = 0, stop = 1, random_ = true) {
-  start_x = map(start, 0, 1, 0, width);
-  start_y = map(start, 0, 1, 0, height);
-  stop_x = map(stop, 0, 1, 0, width);
-  stop_y = map(stop, 0, 1, 0, height);
+  let start_x = map(start, 0, 1, 0, width);
+  let start_y = map(start, 0, 1, 0, height);
+  let stop_x = map(stop, 0, 1, 0, width);
+  let stop_y = map(stop, 0, 1, 0, height);
   noStroke();
   for (let i = start_y; i < stop_y; i += resolution) {
     for (let j = start_x; j < stop_x; j += resolution) {

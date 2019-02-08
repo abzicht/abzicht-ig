@@ -2,86 +2,96 @@ function setup() {
   colorMode(HSB, 255);
   let siz = windowWidth * pixelDensity();
   createCanvas(siz, siz / 3);
-  let white = color(163, 1, 0xff);
   let blue = color(163, 199, 244);
-  background(0, 0, 0xff);
+  let white = color(163, 1, 0xff);
 
-  draw_transition(blue, color(163, 0x1, 0xff), 10, 0, 1, false);
-
-  translate(width / 2, height);
-  let step_x = 6 * 4;
-  let start = step_x * 2;
-  let stop = (width - step_x) / 3 + step_x;
-  for (let i = start; i <= stop; i += step_x) {
-    stroke(blue);
-    strokeWeight(6);
-    let switch_offset = (((i % (step_x * 2) == step_x) ? -1 : 1) * step_x * 0.5);
-    let val = map(i, start, stop, 1, 1.5);
-    let height_offset = height - height * val;
-    line(-i / 2 - switch_offset, 0, -i / 2 - switch_offset, height_offset);
-    line(i / 2 + switch_offset, 0, i / 2 + switch_offset, height_offset);
-    let radius = step_x * 2;
-    let left_vec = createVector(-i / 2 - switch_offset + radius / 4, height_offset);
-    let right_vec = createVector(i / 2 + switch_offset - radius / 4, height_offset);
-    draw_curve(left_vec, 0.5, 0.75, radius, radius, blue);
-    draw_curve(right_vec, 0.75, 1, radius, radius, blue);
-
-    line(left_vec.x, left_vec.y - radius / 4, -radius / 4, left_vec.y - radius / 4);
-    line(right_vec.x, right_vec.y - radius / 4, radius / 4, right_vec.y - radius / 4);
-    let left_center_vec = createVector(-radius / 4, left_vec.y);
-    let right_center_vec = createVector(radius / 4, right_vec.y);
-    draw_curve(left_center_vec, 0.75, 1, radius, radius, blue);
-    draw_curve(right_center_vec, 0.5, 0.75, radius, radius, blue);
-  }
+  draw_transition(blue, white, 2, 0, 1, false);
   resetMatrix();
-  translate(width / 2, 0);
-  stroke(0, 0, 0xff);
-  for (let i = step_x / 2; i <= height / 2 - step_x / 2; i += step_x) {
-    let norm = map(i, step_x / 2, height / 2 - step_x / 2, 0, 1);
-    let width_ = map(norm, 0, 1, 0, stop / 2);
-    line(-width_, i, width_, i);
-    fill(0, 0, 0xff);
-    circle(-width_, i, step_x / 4);
-    circle(width_, i, step_x / 4);
-  }
-  translate(-width / 6 - step_x * 2, height / 2 + step_x);
-  for (let i = step_x / 2; i <= height / 2 - step_x / 2; i += step_x) {
-    let norm = map(i, step_x / 2, height / 2 - step_x / 2, 0, 1);
-    let width_ = map(norm, 0, 1, 0, stop / 2);
-    line(-width_, i, 0, i);
-    fill(0, 0, 0xff);
-    circle(-width_, i, step_x / 4);
-    circle(0, i, step_x / 4);
-  }
+  translate(width / 2, height * 2 + 6 * 2);
+  stroke(blue);
+  strokeWeight(6);
+  let step = 6 * 4;
+  draw_single_branches(step, step * 2, width - step);
+
   resetMatrix();
-  translate(2 * width / 3 + step_x * 2, height / 2 + step_x);
-  for (let i = step_x / 2; i <= height / 2 - step_x / 2; i += step_x) {
-    let norm = map(i, step_x / 2, height / 2 - step_x / 2, 0, 1);
-    let width_ = map(norm, 0, 1, 0, stop / 2);
-    line(width_, i, 0, i);
-    fill(0, 0, 0xff);
-    circle(width_, i, step_x / 4);
-    circle(0, i, step_x / 4);
+  translate(width / 2, height / 3);
+
+  fill(white);
+  let tree_size = step * 2 - 6;
+  noStroke();
+  let tree = new PythagorasTree(createVector(-tree_size / 2, tree_size / 2), createVector(tree_size / 2, tree_size / 2), 0, 14, 1.2, white, blue, false);
+  tree.draw();
+
+  strokeWeight(6 * 3);
+  stroke(blue);
+  line(0, height, 0, 0);
+  stroke(white);
+  line(step / 2, height, step / 2, 0);
+  line(-step / 2, height, -step / 2, 0);
+
+
+  resetMatrix();
+  translate(0, height / 2);
+  noStroke();
+  draw_pythagoras_trees(blue, white);
+  draw_pythagoras_trees(blue, white, width / 10, height * 0.02, -width / 20);
+}
+
+function draw_pythagoras_trees(from, to, resolution = width / 10, tree_size = height * 0.08, offset = 0) {
+  for (let i = resolution + offset; i < width / 2; i += resolution) {
+    let rdm = random(0.5, 1.2);
+    for (let j of [-1, 1]) {
+      resetMatrix();
+      translate(j * i + width / 2, height / 2);
+      new PythagorasTree(createVector(-tree_size / 2 * rdm, 0), createVector(tree_size / 2 * rdm, 0), 0, 10 * rdm, 1, from, to, true).draw();
+      translate(0, -height / 2);
+      rotate(PI);
+      new PythagorasTree(createVector(-tree_size / 3, 0), createVector(tree_size / 3, 0), 0, 10, 1, to, from, false).draw();
+    }
   }
 }
 
-
-
-function draw_spiral(turns, dir = 1, from = null, to = null, radius = 1 / height) {
-  let resolution = radius;
-  let i = 0;
-  let vect = createVector(0, 0);
-  let old_vect = null;
-  while (i < turns * TWO_PI) {
-    i += resolution;
-    old_vect = vect.copy();
-    vect.x = sin(dir * i) * i * 2;
-    vect.y = cos(dir * i) * i * 2;
-    // strokeWeight(i/(turns*TWO_PI) * 6);
-    if (from != null && to != null) {
-      stroke(lerpColor(from, to, map(i, 0, turns * TWO_PI, 0, 1)))
-    }
-    line(old_vect.x, old_vect.y, vect.x, vect.y);
+class PythagorasTree {
+  constructor(loc_1, loc_2, order, iterations, angle, from, to, rnd = false) {
+    this.loc_1 = loc_1.copy();
+    this.loc_2 = loc_2.copy();
+    this.order = order;
+    this.iterations = iterations;
+    this.angle = angle;
+    this.rnd = rnd;
+    this.from = from;
+    this.to = to;
   }
-  return vect;
+
+  draw() {
+    if (this.order >= this.iterations) {
+      return;
+    }
+
+    let d = createVector(this.loc_2.x - this.loc_1.x, this.loc_1.y - this.loc_2.y);
+    let loc_3 = createVector(this.loc_1.x - d.y, this.loc_1.y - d.x);
+    var loc_4 = createVector(this.loc_2.x - d.y, this.loc_2.y - d.x);
+
+    fill(lerpColor(this.from, this.to, this.order / this.iterations));
+    beginShape();
+    vertex(this.loc_1.x, this.loc_1.y);
+    vertex(this.loc_2.x, this.loc_2.y);
+    vertex(loc_4.x, loc_4.y);
+    vertex(loc_3.x, loc_3.y);
+    endShape(CLOSE);
+
+    let v = createVector(0, 0);
+    if (this.rnd == true) {
+      v.x = (loc_3.x + loc_4.x) / 2 - (d.y / 2 * this.angle * random(0.5, 1.2));
+      v.y = (loc_3.y + loc_4.y) / 2 - (d.x / 2 * this.angle * random(0.5, 1.2));
+    } else {
+      v.x = (loc_3.x + loc_4.x) / 2 - (d.y / 2 * this.angle);
+      v.y = (loc_3.y + loc_4.y) / 2 - (d.x / 2 * this.angle);
+
+    }
+
+    new PythagorasTree(loc_3, v, this.order + 1, this.iterations, this.angle, this.from, this.to, this.rnd).draw();
+    new PythagorasTree(v, loc_4, this.order + 1, this.iterations, this.angle, this.from, this.to, this.rnd).draw();
+
+  }
 }

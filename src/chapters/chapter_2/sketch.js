@@ -9,6 +9,8 @@ function setup() {
   draw_sin(12, height / 4, 0.0001, width / 3);
   let radius = width / 1.5;
   translate(width / 3, 0);
+  stroke(0, 0, 0xff);
+  strokeWeight(6);
   draw_curve(createVector(0, 0), 0.25, 0.5, radius);
   noLoop();
 }
