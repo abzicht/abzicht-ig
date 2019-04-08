@@ -9,7 +9,6 @@ function setup() {
   let white = color(163, 1, 0xff);
   background(blue);
 
-  // drawStars();
   drawSky();
   noStroke();
   fill(40, 199, 244);
@@ -28,19 +27,5 @@ let drawSky = function(){
       let scale = noise(x * noiseScale, y * noiseScale);
       circle(x, y, 10 * scale);
 
-  }
-}
-
-function drawStars(){
-  noStroke();
-  let noiseScale = 0.01;
-  let resolution = 20;
-  for (let y = 0; y < height; y+=resolution) {
-    for (let x = 0; x < width; x+=resolution) {
-      noiseDetail(2, 0.2);
-      let noiseVal = noise(x * noiseScale, y * noiseScale);
-      fill(255)
-      circle(x, y, 20 * noiseVal);
-    }
   }
 }
