@@ -1,5 +1,3 @@
-let windmills = [];
-let airplanes = [];
 
 function setup() {
   colorMode(HSB, 255);
